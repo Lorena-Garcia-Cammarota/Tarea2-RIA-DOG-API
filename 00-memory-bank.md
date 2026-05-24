@@ -25,7 +25,7 @@
 
 ### Home — imágenes y paginación (`dogApi.js`)
 
-- **Solo 12 imágenes:** `HOME_IMAGE_POOL_SIZE = 12` = `PAGE_SIZE` (fetch, render y grilla 4×3; sin segunda página).
+- **Solo 12 imágenes:** `HOME_IMAGE_POOL_SIZE = 12` = `PAGE_SIZE` (fetch, render y grilla 4×3).
 - **Todos los perros:** 12 aleatorias (`/breeds/image/random/12`); cambian al recargar o al volver a esa opción.
 - **Cada raza:** catálogo fijo, primeras 12 ordenadas (`takeFixedPool`); mismas fotos en cada visita.
 - **Imágenes:** `loading="lazy"`, `width`/`height` 320, `ratio 1x1` (CLS).

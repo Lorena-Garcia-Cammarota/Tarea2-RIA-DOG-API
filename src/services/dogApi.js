@@ -6,7 +6,6 @@ export const PAGE_SIZE = 12
 /** @deprecated Use PAGE_SIZE — kept for tests */
 export const DEFAULT_IMAGE_COUNT = PAGE_SIZE
 
-/** Una sola pantalla: 12 URLs (4×3), sin paginación extra. */
 export const HOME_IMAGE_POOL_SIZE = 12
 /** @deprecated Use HOME_IMAGE_POOL_SIZE */
 export const ALL_BREEDS_POOL_SIZE = HOME_IMAGE_POOL_SIZE
