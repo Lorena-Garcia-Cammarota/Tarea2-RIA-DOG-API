@@ -1,0 +1,6 @@
+# Placeholder: configurar cuando se prepare el despliegue con Nginx (ver Tarea 2 RIA).
+# services:
+#   patitas:
+#     build: .
+#     ports:
+#       - "8080:80"
