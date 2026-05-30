@@ -5,8 +5,6 @@ import {
   fetchPhotosForBreed,
   fetchRandomDogImages,
   HOME_IMAGE_POOL_SIZE,
-  getTotalPages,
-  paginateUrls,
   urlsToPhotos,
 } from '../src/services/dogApi.js'
 
@@ -108,13 +106,6 @@ describe('dogApi', () => {
     expect(urls).toHaveLength(HOME_IMAGE_POOL_SIZE)
     expect(urls[0]).toBe(catalog[0])
     expect(urls).toEqual([...catalog].sort().slice(0, HOME_IMAGE_POOL_SIZE))
-  })
-
-  it('paginateUrls y getTotalPages dividen por páginas de PAGE_SIZE', () => {
-    const urls = Array.from({ length: 25 }, (_, i) => `url-${i}`)
-    expect(getTotalPages(urls.length)).toBe(3)
-    expect(paginateUrls(urls, 2)).toHaveLength(12)
-    expect(paginateUrls(urls, 3)).toHaveLength(1)
   })
 
   it('urlsToPhotos arma objetos con id igual a la URL', () => {

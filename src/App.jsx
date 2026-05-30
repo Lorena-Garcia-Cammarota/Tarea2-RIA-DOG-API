@@ -9,7 +9,7 @@ import {
   saveToGallery,
 } from './services/galleryStorage.js'
 
-function App() {
+export function PatitasApp() {
   const [favoriteUrls, setFavoriteUrls] = useState(
     () => new Set(getSavedGallery()),
   )
@@ -29,20 +29,25 @@ function App() {
   }, [])
 
   return (
+    <div className="patitas-page min-vh-100 d-flex flex-column">
+      <Header galleryCount={favoriteUrls.size} />
+      <main className="container-fluid container-lg flex-grow-1 px-3 px-sm-4 py-3 py-md-4 pb-4 pb-lg-5">
+        <AppRouter
+          favoriteUrls={favoriteUrls}
+          onToggleFavorite={onToggleFavorite}
+        />
+      </main>
+      <Footer />
+    </div>
+  )
+}
+
+function App() {
+  return (
     <BrowserRouter>
-      <div className="patitas-page min-vh-100 d-flex flex-column">
-        <Header galleryCount={favoriteUrls.size} />
-        <main className="container-fluid container-lg flex-grow-1 px-3 px-sm-4 py-3 py-md-4 pb-4 pb-lg-5">
-          <AppRouter
-            favoriteUrls={favoriteUrls}
-            onToggleFavorite={onToggleFavorite}
-          />
-        </main>
-        <Footer />
-      </div>
+      <PatitasApp />
     </BrowserRouter>
   )
 }
 
 export default App
-

@@ -23,9 +23,9 @@
 
 ## Estado actual
 
-### Home — imágenes y paginación (`dogApi.js`)
+### Home — imágenes (`dogApi.js`)
 
-- **Solo 12 imágenes:** `HOME_IMAGE_POOL_SIZE = 12` = `PAGE_SIZE` (fetch, render y grilla 4×3).
+- **Solo 12 imágenes:** `HOME_IMAGE_POOL_SIZE = 12` — fetch, render y grilla 4×3 en una sola pantalla (sin paginación).
 - **Todos los perros:** 12 aleatorias (`/breeds/image/random/12`); cambian al recargar o al volver a esa opción.
 - **Cada raza:** catálogo fijo, primeras 12 ordenadas (`takeFixedPool`); mismas fotos en cada visita.
 - **Imágenes:** `loading="lazy"`, `width`/`height` 320, `ratio 1x1` (CLS).
@@ -46,5 +46,5 @@
 
 ### Tests
 
-- Vitest: `npm run test:run` — 13 tests (dogApi, galleryStorage, homeCatalogCache, App, integración).
+- Vitest: `npm run test:run` — 16 tests (dogApi, galleryStorage, homeCatalogCache, App, integración).
 - Informe: `docs/Informe_Testing_y_Performance.md` (capturas Lighthouse + tests).

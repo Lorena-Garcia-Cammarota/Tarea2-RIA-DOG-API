@@ -11,12 +11,10 @@ describe('homeCatalogCache', () => {
     setHomeCatalogCache({
       breedValue: 'all',
       imageUrls: ['https://example.com/a.jpg'],
-      currentPage: 2,
     })
     expect(getHomeCatalogCache()).toEqual({
       breedValue: 'all',
       imageUrls: ['https://example.com/a.jpg'],
-      currentPage: 2,
     })
     clearHomeCatalogCache()
     expect(getHomeCatalogCache()).toBeNull()

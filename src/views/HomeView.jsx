@@ -1,32 +1,25 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import BreedFilter from '../components/BreedFilter.jsx'
 import DogGrid from '../components/DogGrid.jsx'
-import PhotoPagination from '../components/PhotoPagination.jsx'
 import { getBreedByValue } from '../data/breeds.js'
-import {
-  fetchImageUrlsForBreed,
-  getTotalPages,
-  paginateUrls,
-  urlsToPhotos,
-} from '../services/dogApi.js'
+import { fetchImageUrlsForBreed, urlsToPhotos } from '../services/dogApi.js'
 import {
   getHomeCatalogCache,
   setHomeCatalogCache,
 } from '../services/homeCatalogCache.js'
+
 function readCachedState() {
   const cached = getHomeCatalogCache()
   if (!cached?.imageUrls?.length) {
     return {
       selectedBreed: 'all',
       imageUrls: [],
-      currentPage: 1,
       loading: true,
     }
   }
   return {
     selectedBreed: cached.breedValue,
     imageUrls: cached.imageUrls,
-    currentPage: cached.currentPage ?? 1,
     loading: false,
   }
 }
@@ -35,17 +28,15 @@ function HomeView({ favoriteUrls, onToggleFavorite }) {
   const initial = readCachedState()
   const [selectedBreed, setSelectedBreed] = useState(initial.selectedBreed)
   const [imageUrls, setImageUrls] = useState(initial.imageUrls)
-  const [currentPage, setCurrentPage] = useState(initial.currentPage)
   const [loading, setLoading] = useState(initial.loading)
   const [error, setError] = useState(null)
 
   const breed = getBreedByValue(selectedBreed)
-  const totalPages = getTotalPages(imageUrls.length)
 
-  const photos = useMemo(() => {
-    const pageUrls = paginateUrls(imageUrls, currentPage)
-    return urlsToPhotos(pageUrls, breed.label)
-  }, [imageUrls, currentPage, breed.label])
+  const photos = useMemo(
+    () => urlsToPhotos(imageUrls, breed.label),
+    [imageUrls, breed.label],
+  )
 
   const loadCatalog = useCallback(async (breedValue) => {
     const cached = getHomeCatalogCache()
@@ -54,7 +45,6 @@ function HomeView({ favoriteUrls, onToggleFavorite }) {
       cached.imageUrls.length > 0
     ) {
       setImageUrls(cached.imageUrls)
-      setCurrentPage(cached.currentPage ?? 1)
       setLoading(false)
       setError(null)
       return
@@ -62,14 +52,12 @@ function HomeView({ favoriteUrls, onToggleFavorite }) {
 
     setLoading(true)
     setError(null)
-    setCurrentPage(1)
     try {
       const urls = await fetchImageUrlsForBreed(breedValue)
       setImageUrls(urls)
       setHomeCatalogCache({
         breedValue,
         imageUrls: urls,
-        currentPage: 1,
       })
     } catch (err) {
       setImageUrls([])
@@ -92,17 +80,11 @@ function HomeView({ favoriteUrls, onToggleFavorite }) {
     setHomeCatalogCache({
       breedValue: selectedBreed,
       imageUrls,
-      currentPage,
     })
-  }, [selectedBreed, imageUrls, currentPage, loading, error])
+  }, [selectedBreed, imageUrls, loading, error])
 
   const handleBreedChange = (breedValue) => {
     setSelectedBreed(breedValue)
-  }
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
@@ -153,20 +135,12 @@ function HomeView({ favoriteUrls, onToggleFavorite }) {
       )}
 
       {!loading && !error && photos.length > 0 && (
-        <>
         <DogGrid
           photos={photos}
           favoriteUrls={favoriteUrls}
           onToggleFavorite={onToggleFavorite}
           showScrollHint={false}
         />
-          <PhotoPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            totalImages={imageUrls.length}
-            onPageChange={handlePageChange}
-          />
-        </>
       )}
     </section>
   )

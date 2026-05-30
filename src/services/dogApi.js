@@ -36,7 +36,6 @@ export async function fetchBreedImages(breedPath, count = DEFAULT_IMAGE_COUNT) {
   return normalizeImageList(data.message)
 }
 
-/** Todas las URLs de una raza (para paginar en el cliente; no va a LocalStorage). */
 export async function fetchBreedImageCatalog(breedPath) {
   const response = await fetch(`${API_BASE}/breed/${breedPath}/images`)
   if (!response.ok) {
@@ -49,7 +48,6 @@ export async function fetchBreedImageCatalog(breedPath) {
   return normalizeImageList(data.message)
 }
 
-/** Primeras N URLs del catálogo, orden fijo (mismas fotos en cada visita/página). */
 export function takeFixedPool(urls, size = HOME_IMAGE_POOL_SIZE) {
   return [...urls].sort().slice(0, size)
 }
@@ -59,20 +57,6 @@ async function fetchBreedFixedPool(breedPath) {
   return takeFixedPool(catalog)
 }
 
-/** Primera página rápida (12 URLs) para mostrar contenido antes. */
-export async function fetchInitialImageUrls(breedValue) {
-  const breed = getBreedByValue(breedValue)
-  if (breed.value === 'all' || !breed.apiPath) {
-    return fetchRandomDogImages(PAGE_SIZE)
-  }
-  const catalog = await fetchBreedImageCatalog(breed.apiPath)
-  return takeFixedPool(catalog, PAGE_SIZE)
-}
-
-/**
- * Lista completa para paginar (hasta HOME_IMAGE_POOL_SIZE).
- * "Todos" → aleatorio global; cada raza → catálogo fijo (mismas fotos siempre).
- */
 export async function fetchImageUrlsForBreed(breedValue) {
   const breed = getBreedByValue(breedValue)
   if (breed.value === 'all' || !breed.apiPath) {
@@ -81,7 +65,6 @@ export async function fetchImageUrlsForBreed(breedValue) {
   return fetchBreedFixedPool(breed.apiPath)
 }
 
-/** Carga imágenes según el valor del filtro (`all`, `pitbull`, …). */
 export async function fetchPhotosForBreed(
   breedValue,
   count = PAGE_SIZE,
@@ -91,34 +74,6 @@ export async function fetchPhotosForBreed(
     return fetchRandomDogImages(count)
   }
   return fetchBreedImages(breed.apiPath, count)
-}
-
-export function paginateUrls(urls, page, pageSize = PAGE_SIZE) {
-  const start = (page - 1) * pageSize
-  return urls.slice(start, start + pageSize)
-}
-
-export function getTotalPages(urlCount, pageSize = PAGE_SIZE) {
-  if (urlCount === 0) return 0
-  return Math.ceil(urlCount / pageSize)
-}
-
-export function getVisiblePageNumbers(currentPage, totalPages) {
-  if (totalPages <= 7) {
-    return Array.from({ length: totalPages }, (_, index) => index + 1)
-  }
-
-  const pages = new Set([
-    1,
-    totalPages,
-    currentPage,
-    currentPage - 1,
-    currentPage + 1,
-  ])
-
-  const sorted = [...pages].filter((page) => page >= 1 && page <= totalPages)
-  sorted.sort((a, b) => a - b)
-  return sorted
 }
 
 function normalizeImageList(message) {
