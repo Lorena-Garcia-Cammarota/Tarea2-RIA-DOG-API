@@ -107,8 +107,10 @@ Guía de **Lighthouse** y evidencias: [`docs/Testing_y_Performance.md`](docs/Tes
 
 ## Documentación del curso
 
+## Documentación del curso
+
 - Consigna: [`docs/Tarea_2_RIA_2026.md`](docs/Tarea_2_RIA_2026.md)
 - Mockup: [`docs/Documento_de_Mockup.md`](docs/Documento_de_Mockup.md)
 - Testing y performance: [`docs/Testing_y_Performance.md`](docs/Testing_y_Performance.md)
 - Memory bank: [`00-memory-bank.md`](00-memory-bank.md)
-- Video de la App: https://youtu.be/oVZbhSrRBt8
+- Video demo: [`Demo Patitas (YouTube)`](https://youtu.be/oVZbhSrRBt8)
