@@ -17,7 +17,7 @@ Guía para ejecutar pruebas automatizadas y medir performance con Lighthouse en 
 Evidencias guardadas en el repo:
 
 - Reporte Lighthouse: [`lighthouse-report.report.html`](lighthouse-report.report.html) / [`.json`](lighthouse-report.report.json)
-- Capturas para la entrega: [`Informe_Testing_y_Performance.md`](Informe_Testing_y_Performance.md) *(pendiente de armar con screenshots)*
+- Capturas para la entrega: [`Informe_Testing_y_Performance.md`](Informe_Testing_y_Performance.md)
 
 ---
 
