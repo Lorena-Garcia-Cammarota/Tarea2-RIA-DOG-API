@@ -97,15 +97,41 @@ Guía de **Lighthouse** y evidencias: [`docs/Testing_y_Performance.md`](docs/Tes
 
 ## Seguridad
 
-- No hay backend propio ni base de datos: toda la lógica corre en el navegador.
-- Los favoritos se guardan solo en **LocalStorage** del dispositivo (`patitas-gallery`).
-- Las imágenes provienen de la API pública [Dog CEO](https://dog.ceo/dog-api/); no se almacenan credenciales ni secrets en el repo.
+Patitas es una aplicación **solo cliente** (React en el navegador). No hay backend propio, base de datos ni usuarios registrados. El perfil de riesgo es bajo, pero estas son las decisiones y limitaciones relevantes:
+
+### Arquitectura
+
+- Toda la lógica corre en el **navegador**; no se envían datos personales a un servidor nuestro.
+- Las imágenes se obtienen de la API pública [Dog CEO](https://dog.ceo/dog-api/), que **no requiere API key**.
+- No hay autenticación ni sesiones: no se manejan contraseñas ni tokens.
+
+### Datos almacenados
+
+- Los favoritos se guardan en **LocalStorage** del dispositivo, bajo la clave `patitas-gallery` (ver `src/services/galleryStorage.js`).
+- Solo se persisten **URLs de imágenes**; no hay datos sensibles (nombre, email, ubicación, etc.).
+- Esos datos son **locales al navegador**: cualquier persona con acceso al mismo dispositivo puede verlos o borrarlos desde las herramientas del navegador.
+- Si el JSON en LocalStorage está corrupto, la app lo ignora y arranca con galería vacía (manejo defensivo en `getSavedGallery`).
+
+### Repositorio y dependencias
+
+- **No hay credenciales, API keys ni archivos `.env`** en el repositorio.
+- Las dependencias se instalan con npm; conviene mantener `npm audit` al día antes de entregas o despliegues.
+
+### Código y buenas prácticas
+
+- React escapa el contenido por defecto al renderizar; no se usa `dangerouslySetInnerHTML` ni `eval`.
+- Las entradas del usuario se limitan a filtrar razas y marcar favoritos (URLs ya validadas por la API).
+- **ESLint** (`npm run lint`) ayuda a detectar patrones inseguros o errores comunes.
+
+### Despliegue y Lighthouse
+
+- En **desarrollo** la app corre en `http://localhost` (HTTP local, uso esperado).
+- En **producción** debe servirse por **HTTPS** para proteger el tráfico y evitar contenido mixto.
+- Lighthouse incluye auditorías de buenas prácticas de seguridad (HTTPS, CSP, clickjacking, etc.). Reporte en [`docs/lighthouse-report.report.html`](docs/lighthouse-report.report.html) — categoría *Best Practices* con puntaje **100**.
 
 ## Herramientas de IA
 
 - **Cursor (Agent)** — scaffolding inicial, Home + Dog CEO API, Mi Galería (favoritos y empty state). Ver `prompts/`.
-
-## Documentación del curso
 
 ## Documentación del curso
 
